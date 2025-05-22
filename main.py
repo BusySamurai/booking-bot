@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Header, HTTPException
+from fastapi import FastAPI
 from pydantic import BaseModel
 from queue import Queue
 import re
@@ -25,5 +26,11 @@ async def sms_webhook(
         raise HTTPException(400, "No code in message")
     sms_queue.put(m.group(1))
     return {"status": "ok"}
+
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"message": "Booking Bot is live!"}
 
 # TODO: здесь будет логика проверки слотов и планировщик 08:00–10:00
